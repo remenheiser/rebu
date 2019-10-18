@@ -33,13 +33,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gsilber/NodeTypescriptStarter.git"
+    "url": "git+https://github.com/KoreyMitchell/rebu.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gsilber/NodeTypescriptStarter/issues"
+    "url": "https://github.com/KoreyMitchell/rebu/issues"
   },
-  "homepage": "https://github.com/gsilber/NodeTypescriptStarter#readme"
+  "homepage": "https://github.com/KoreyMitchell/rebu#readme"
 }
