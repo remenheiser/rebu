@@ -1,5 +1,6 @@
 import bodyParser from "body-parser";
 import express from "express";
+import * as mongoose from "mongoose";
 
 import {ApiRouter} from "./router";
 
@@ -12,12 +13,15 @@ class Application {
         this.port = +process.env.serverPort || 3000;
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(bodyParser.json());
+        this.app.use(express.static("rebu/app/src/public"));
         this.initCors();
     }
     // Starts the server on the port specified in the environment or on port 3000 if none specified.
     public start(): void {
+
         this.buildRoutes();
         this.app.listen(this.port, () => console.log("Server listening on port " + this.port + "!"));
+
     }
 
     // sets up to allow cross-origin support from any host.  You can change the options to limit who can access the api.
@@ -35,7 +39,7 @@ class Application {
     }
     // setup routes for the express server
     public buildRoutes(): void {
-        this.app.use("/api", new ApiRouter().getRouter());
+        this.app.use("/", new ApiRouter().getRouter());
     }
 }
 new Application().start();

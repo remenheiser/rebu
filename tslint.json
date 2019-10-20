@@ -3,11 +3,15 @@
     "extends": [
         "tslint:recommended"
     ],
-    "jsRules": {},
+    "jsRules": {
+        "object-literal-sort-keys": false
+    },
     "rules": {
+        "object-literal-sort-keys": false,
         "trailing-comma": [ false ],
         "no-console": [false],
-        "only-arrow-functions": false
+        "only-arrow-functions": false,
+        "no-shadowed-variable": false
     },
     "rulesDirectory": []
 }
