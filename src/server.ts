@@ -37,6 +37,12 @@ class Application {
             next();
         });
     }
+
+    // use this method to send a user a token
+    public authorize(): void {
+
+    }
+
     // setup routes for the express server
     public buildRoutes(): void {
         this.app.use("/", new ApiRouter().getRouter());
