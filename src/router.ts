@@ -19,7 +19,7 @@ export class ApiRouter {
         this.router.get("/spot/:id", spotController.getSpot);
         this.router.put("/spot", spotController.addSpot);
         this.router.delete("/spot/:id", spotController.deleteSpot);
-        this.router.post("/book/:id", spotController.updateSpot);
+        this.router.post("/spot/:id", spotController.updateSpot);
         return this.router;
     }
 }

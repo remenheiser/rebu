@@ -39,9 +39,9 @@ class Application {
     }
 
     // use this method to send a user a token
-    public authorize(): void {
+    // public authorize(): void {
 
-    }
+    // }
 
     // setup routes for the express server
     public buildRoutes(): void {
