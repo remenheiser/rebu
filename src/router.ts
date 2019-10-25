@@ -16,7 +16,7 @@ export class ApiRouter {
         this.router.get("takemymoney", this.controller.getBail);
         this.router.get("/", this.controller.getHome);
         this.router.get("/spots", spotController.allSpots);
-        this.router.get("/spot/:id", spotController.getSpot);
+        this.router.get("/chosen-spot/:id", spotController.getSpot);
         this.router.put("/spot", spotController.addSpot);
         this.router.delete("/spot/:id", spotController.deleteSpot);
         this.router.post("/spot/:id", spotController.updateSpot);
