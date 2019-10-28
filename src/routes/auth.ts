@@ -1,6 +1,6 @@
-//const jwt: = require('express-jwt');
+export const jwt = require('express-jwt');
 
-const getTokenFromHeaders = (req: any) => {
+export const getTokenFromHeaders = (req: any) => {
   const { headers: { authorization } } = req;
 
   if(authorization && authorization.split(' ')[0] === 'Token') {
@@ -9,7 +9,7 @@ const getTokenFromHeaders = (req: any) => {
   return null;
 };
 
-const auth = {
+export const auth = {
   required: jwt({
     secret: 'secret',
     userProperty: 'payload',
@@ -23,4 +23,4 @@ const auth = {
   }),
 };
 
-module.exports = auth;
+export let Auth = module.exports = auth;

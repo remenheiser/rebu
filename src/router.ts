@@ -5,7 +5,7 @@ import * as spotController from "./spotController";
 //const mongoose = require('mongoose');
 //const passport = require('passport');
 const router = require('express').Router();
-const auth = require('./src/routes/auth.ts');
+import {Auth} from "./routes/auth";
 //const Users = mongoose.model('Users');
 import {Users} from "./models/users";
 
@@ -28,7 +28,7 @@ export class ApiRouter {
         this.router.post("/spot/:id", spotController.updateSpot);
 
         //POST new user route (optional, everyone has access)
-        this.router.post('/', auth.optional, (req: any, res: any, next: any) => {
+        this.router.post('/', Auth.optional, (req: any, res: any, next: any) => {
             const { body: { user } } = req;
 
             if (!user.email) {
@@ -56,7 +56,7 @@ export class ApiRouter {
         });
 
         //POST login route (optional, everyone has access)
-        this.router.post('/login', auth.optional, (req: any, res: any, next: any) => {
+        this.router.post('/login', Auth.optional, (req: any, res: any, next: any) => {
             const { body: { user } } = req;
 
             if (!user.email) {
@@ -92,7 +92,7 @@ export class ApiRouter {
         });
 
         //GET current route (required, only authenticated users have access)
-        this.router.get('/current', auth.required, (req: any, res: any, next: any) => {
+        this.router.get('/current', Auth.required, (req: any, res: any, next: any) => {
             const { payload: { id } } = req;
 
             return Users.findById(id)
