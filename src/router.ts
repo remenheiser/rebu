@@ -6,7 +6,8 @@ import * as spotController from "./spotController";
 //const passport = require('passport');
 const router = require('express').Router();
 const auth = require('./src/routes/auth.ts');
-const Users = mongoose.model('Users');
+//const Users = mongoose.model('Users');
+import {Users} from "./models/users";
 
 export class ApiRouter {
     private router: express.Router = express.Router();

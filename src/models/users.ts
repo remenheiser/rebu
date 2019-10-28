@@ -10,17 +10,17 @@ const UsersSchema = new Schema({
   salt: String,
 });
 
-UsersSchema.methods.setPassword = function(password: any) {
+export let setPassword = function(password: any) {
   this.salt = crypt.randomBytes(16).toString('hex');
   this.hash = crypt.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
 };
 
-UsersSchema.methods.validatePassword = function(password: any) {
+export let validatePassword = function(password: any) {
   const hash = crypt.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
   return this.hash === hash;
 };
 
-UsersSchema.methods.generateJWT = function() {
+export let generateJWT = function() {
   const today = new Date();
   const expirationDate = new Date(today);
   expirationDate.setDate(today.getDate() + 60);
@@ -32,7 +32,7 @@ UsersSchema.methods.generateJWT = function() {
   }, 'secret');
 }
 
-UsersSchema.methods.toAuthJSON = function() {
+export let toAuthJSON = function() {
   return {
     _id: this._id,
     email: this.email,
@@ -40,4 +40,4 @@ UsersSchema.methods.toAuthJSON = function() {
   };
 };
 
-mongoose.model('Users', UsersSchema);
+export let Users = mongoose.model('Users', UsersSchema);
