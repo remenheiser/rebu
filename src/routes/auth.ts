@@ -9,18 +9,10 @@ export const getTokenFromHeaders = (req: any) => {
   return null;
 };
 
-export const auth = {
-  required: jwt({
+export class Auth{
+  required: string=jwt({
     secret: 'secret',
     userProperty: 'payload',
     getToken: getTokenFromHeaders,
-  }),
-  optional: jwt({
-    secret: 'secret',
-    userProperty: 'payload',
-    getToken: getTokenFromHeaders,
-    credentialsRequired: false,
-  }),
-};
-
-export let Auth = module.exports = auth;
+  });
+}
