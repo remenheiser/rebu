@@ -1,7 +1,7 @@
 // Importing Passport, strategies, and config
 export const passport = require('passport'),
-    User = require('../model/user'),
-    config = require('../config/config'),
+    User = require('./models/users'),
+    config = require('./config/passport'),
     JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt,
     mongoose = require('mongoose');

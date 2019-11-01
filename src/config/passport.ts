@@ -1,4 +1,4 @@
-//const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 
