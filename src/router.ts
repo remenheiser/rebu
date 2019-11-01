@@ -6,6 +6,7 @@ const router = require('express').Router();
 import {Auth} from "./routes/auth";
 import {Users} from "./models/users";
 import {requireAuth} from "./passport";
+import {decoder} from "./passport";
 
 export class ApiRouter {
     private router: express.Router = express.Router();
@@ -15,7 +16,7 @@ export class ApiRouter {
     public getRouter(): express.Router {
         const bodyParser = require("body-parser");
         this.router.use(bodyParser.urlencoded({ extended: true }));
-        this.router.get("/hello", requireAuth,this.controller.getHello);
+        this.router.get("/hello",this.controller.getHello);
         this.router.post("/hello", this.controller.postHello);
         this.router.get("takemymoney", this.controller.getBail);
         this.router.get("/", this.controller.getHome);
@@ -26,7 +27,7 @@ export class ApiRouter {
         this.router.post("/spot/:id", spotController.updateSpot);
 
         //POST new user route (optional, everyone has access)
-        this.router.post( '/', requireAuth, (req: any, res: any, next: any) => {
+        this.router.post( '/', decoder(requireAuth), (req: any, res: any, next: any) => {
             const { body: { user } } = req;
             
             if (!user.email) {
@@ -54,7 +55,7 @@ export class ApiRouter {
         });
 
         //GET current route (required, only authenticated users have access)
-        this.router.get('/current', requireAuth, (req: any, res: any, next: any) => {
+        this.router.get('/current', decoder(requireAuth), (req: any, res: any, next: any) => {
             const { payload: { id } } = req;
 
             return Users.findById(id)
