@@ -3,14 +3,15 @@ import * as mongoose from "mongoose";
 import { Controller } from "./controller";
 import * as spotController from "./spotController";
 const router = require('express').Router();
-import {Auth} from "./routes/auth";
+//import {Auth} from "./routes/auth";
 import {Users} from "./models/users";
-import {requireAuth} from "./passport";
-import {decoder} from "./passport";
+import {requireAuth, JwtHelper} from "./passport";
+//import {decoder} from "./passport";
 
 export class ApiRouter {
     private router: express.Router = express.Router();
     private controller: Controller = new Controller();
+    private helper: JwtHelper = new JwtHelper();
 
     // Creates the routes for this router and returns a populated router object
     public getRouter(): express.Router {
@@ -27,7 +28,7 @@ export class ApiRouter {
         this.router.post("/spot/:id", spotController.updateSpot);
 
         //POST new user route (optional, everyone has access)
-        this.router.post( '/', decoder(requireAuth), (req: any, res: any, next: any) => {
+        this.router.post( '/', requireAuth, (req: any, res: any, next: any) => {
             const { body: { user } } = req;
             
             if (!user.email) {
@@ -55,7 +56,7 @@ export class ApiRouter {
         });
 
         //GET current route (required, only authenticated users have access)
-        this.router.get('/current', decoder(requireAuth), (req: any, res: any, next: any) => {
+        this.router.get('/current', this.helper.decodeToken(), (req: any, res: any, next: any) => {
             const { payload: { id } } = req;
 
             return Users.findById(id)

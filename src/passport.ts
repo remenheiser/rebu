@@ -8,7 +8,8 @@ export const passport = require('passport'),
 
 export const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: config.secret
+    //secretOrKey: config.secret
+    secretOrKey: 'secret'
 };
 
 // Setting up JWT login strategy
@@ -45,7 +46,8 @@ export class JwtHelper {
 
     public decodeToken(token: string = '') {
         if (token === null || token === '') { return { 'upn': '' }; }
-        const parts = token.split('.');
+        const parts: string[] = token.toString().split('.');
+        console.log(parts);
         if (parts.length !== 3) {
 
             throw new Error('JWT must have 3 parts');
@@ -60,4 +62,4 @@ export class JwtHelper {
 
 passport.use(JWTLogin);
 export let requireAuth = passport.authenticate('jwt', { session: false });  
-export let decoder = passport.decodeToken('jwt', {session: false});     
+// export let decoder = passport.decodeToken('jwt', {session: false});     
