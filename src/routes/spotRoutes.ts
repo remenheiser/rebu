@@ -23,5 +23,6 @@ export class SpotRouter {
         this.router.get("/spot/:id", this.authController.authenticateJWT, this.spotController.getSpot);
         this.router.delete("/spot/:id", this.authController.authenticateJWT, this.spotController.deleteSpot);
         this.router.post("/spot/:id", this.authController.authenticateJWT, this.spotController.updateSpot);
+        this.router.get("/chosen-spot/:id", this.authController.authenticateJWT, this.spotController.getSpot);
     }
 }
