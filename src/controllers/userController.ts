@@ -67,6 +67,8 @@ export class UserController {
 						});
 						return res.status(200).json({
 							message: "Auth successful",
+							email: user.email,
+							username: user.username,
 							token: token
 						});
 					} else {
