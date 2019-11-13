@@ -19,6 +19,14 @@ export const userSchema: Schema = new Schema({
     password: { type: String, required: true },
 });
 
+export const mongoose = require('mongoose');
+
+export const resettokenSchema = new mongoose.Schema({
+    _userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
+    resettoken: { type: String, required: true },
+    createdAt: { type: Date, required: true, default: Date.now, expires: 43200 },
+ });
+
 userSchema.methods.comparePassword = function(candidatePassword: string, callback: any) {
     bcrypt.compare(candidatePassword, this.password, (err: Error, isMatch: boolean) => {
         callback(err, isMatch);
@@ -26,3 +34,4 @@ userSchema.methods.comparePassword = function(candidatePassword: string, callbac
 };
 
 export const UserSchema: Model<IUser> = model<IUser>("UserSchema", userSchema);
+module.exports = mongoose.model('passwordResetToken', resettokenSchema);

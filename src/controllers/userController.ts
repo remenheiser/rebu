@@ -4,6 +4,7 @@ import * as jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import "../auth/passportHandler";
 import { UserSchema } from "../models/user";
+const passwordResetToken = require('../models/user');
 
 export class UserController {
 	public async registerUser(req: Request, res: Response): Promise<void> {
@@ -60,11 +61,11 @@ export class UserController {
 						const token = jwt.sign({
 							email: user.email,
 							userID: user._id,
-						}, 
-						"secret",
-						{
-							expiresIn: "1h"
-						});
+						},
+							"secret",
+							{
+								expiresIn: "1h"
+							});
 						return res.status(200).json({
 							message: "Auth successful",
 							email: user.email,
@@ -85,4 +86,70 @@ export class UserController {
 				});
 			});
 	}
+
+
+	public async ValidPasswordToken(req: Request, res: Response) {
+		if (!req.body.resettoken) {
+			return res
+				.status(500)
+				.json({ message: 'Token is required' });
+		}
+		const user = await passwordResetToken.findOne({
+			resettoken: req.body.resettoken
+		});
+		if (!user) {
+			return res
+				.status(409)
+				.json({ message: 'Invalid URL' });
+		}
+		user.findOneAndUpdate({ _id: user._userId }).then(() => {
+			res.status(200).json({ message: 'Token verified successfully.' });
+		}).catch((err: any) => {
+			return res.status(500).send({ msg: err.message });
+		});
+	}
+
+	public async NewPassword(req: Request, res: Response) {
+		passwordResetToken.findOne({ resettoken: req.body.resettoken }, async function (err: any, userToken: any, next: any) {
+			if (!userToken) {
+				return res
+					.status(409)
+					.json({ message: 'Token has expired' });
+			}
+			const user = await passwordResetToken.findOne({
+				resettoken: req.body.resettoken
+			});
+			user.findOne({
+				_id: userToken._userId
+			}, function (err: any, userEmail: any, next: any) {
+				if (!userEmail) {
+					return res
+						.status(409)
+						.json({ message: 'User does not exist' });
+				}
+				return bcrypt.hash(req.body.newPassword, 10, (err, hash) => {
+					if (err) {
+						return res
+							.status(400)
+							.json({ message: 'Error hashing password' });
+					}
+					userEmail.password = hash;
+					userEmail.save(function (err: any) {
+						if (err) {
+							return res
+								.status(400)
+								.json({ message: 'Password can not reset.' });
+						} else {
+							userToken.remove();
+							return res
+								.status(201)
+								.json({ message: 'Password reset successfully' });
+						}
+
+					});
+				});
+			});
+		})
+	}
 }
+

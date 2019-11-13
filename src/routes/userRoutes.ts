@@ -1,9 +1,11 @@
 import { Router } from "express";
 import { UserController } from "../controllers/userController";
+import { AuthController } from "../controllers/authController";
 
 export class UserRouter {
     private router: Router;
     private userController: UserController = new UserController();
+    private authController: AuthController = new AuthController();
 
     public constructor() {
         this.router = Router();
@@ -17,5 +19,8 @@ export class UserRouter {
         this.router.use(bodyParser.urlencoded({extended: true}));
         this.router.post("/register", this.userController.registerUser);
         this.router.post("/login", this.userController.loginUser);
+        this.router.post("/req-reset-password", this.authController.ResetPassword);
+        this.router.post("/new-password", this.userController.NewPassword);
+        this.router.post("/valid-password-token", this.userController.ValidPasswordToken);
     }
 }
