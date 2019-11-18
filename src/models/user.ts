@@ -34,4 +34,4 @@ userSchema.methods.comparePassword = function(candidatePassword: string, callbac
 };
 
 export const UserSchema: Model<IUser> = model<IUser>("UserSchema", userSchema);
-module.exports = mongoose.model('passwordResetToken', resettokenSchema);
+export const ResetTokenSchema:any = mongoose.model('passwordResetToken', resettokenSchema);

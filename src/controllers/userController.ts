@@ -3,8 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import "../auth/passportHandler";
-import { UserSchema } from "../models/user";
-const passwordResetToken = require('../models/user');
+import { UserSchema ,ResetTokenSchema } from "../models/user";
 
 export class UserController {
 	public async registerUser(req: Request, res: Response): Promise<void> {
@@ -94,7 +93,7 @@ export class UserController {
 				.status(500)
 				.json({ message: 'Token is required' });
 		}
-		const user = await passwordResetToken.findOne({
+		const user = await ResetTokenSchema.findOne({
 			resettoken: req.body.resettoken
 		});
 		if (!user) {
