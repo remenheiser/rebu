@@ -109,13 +109,13 @@ export class UserController {
 	}
 
 	public async NewPassword(req: Request, res: Response) {
-		passwordResetToken.findOne({ resettoken: req.body.resettoken }, async function (err: any, userToken: any, next: any) {
+		ResetTokenSchema.findOne({ resettoken: req.body.resettoken }, async function (err: any, userToken: any, next: any) {
 			if (!userToken) {
 				return res
 					.status(409)
 					.json({ message: 'Token has expired' });
 			}
-			const user = await passwordResetToken.findOne({
+			const user = await ResetTokenSchema.findOne({
 				resettoken: req.body.resettoken
 			});
 			user.findOne({
