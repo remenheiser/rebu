@@ -101,7 +101,7 @@ export class UserController {
 				.status(409)
 				.json({ message: 'Invalid URL' });
 		}
-		user.findOneAndUpdate({ _id: user._userId }).then(() => {
+		user.findOneAndUpdate({ _id: user._id }).then(() => {
 			res.status(200).json({ message: 'Token verified successfully.' });
 		}).catch((err: any) => {
 			return res.status(500).send({ msg: err.message });

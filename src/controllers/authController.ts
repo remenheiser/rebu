@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import passport from "passport";
 import "../auth/passportHandler"
-const passwordResetToken = require('../models/user');
+//const passwordResetToken = require('../models/user');
 const nodemailer = require('nodemailer');
 import * as crypto from "crypto";
+import { UserSchema, ResetTokenSchema } from "../models/user";
 
 export class AuthController {
     public authenticateJWT(req: Request, res: Response, next: NextFunction) {
@@ -48,7 +49,7 @@ export class AuthController {
                     .status(500)
                     .json({ message: 'Email is required' });
             }
-            const usr = await user.findOne({
+            const usr = await UserSchema.findOne({
                 email: req.body.email
             });
             if (!usr) {
@@ -56,16 +57,16 @@ export class AuthController {
                     .status(409)
                     .json({ message: 'Email does not exist' });
             }
-            var resettoken = new passwordResetToken({ _userId: usr._id, resettoken: crypto.randomBytes(16).toString('hex') });
+            var resettoken = new ResetTokenSchema({ _userId: usr._id, resettoken: crypto.randomBytes(16).toString('hex') });
             resettoken.save(function (err: any) {
                 if (err) { return res.status(500).send({ msg: err.message }); }
-                passwordResetToken.find({ _userId: usr._id, resettoken: { $ne: resettoken.resettoken } }).remove().exec();
+                ResetTokenSchema.find({ _userId: usr._id, resettoken: { $ne: resettoken.resettoken } }).remove().exec();
                 res.status(200).json({ message: 'Reset Password successfully.' });
                 var transporter = nodemailer.createTransport({
                     service: 'Gmail',
                     port: 465,
                     auth: {
-                        user: 'user',
+                        usr: 'user',
                         pass: 'password'
                     }
                 });
