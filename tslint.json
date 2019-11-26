@@ -12,11 +12,8 @@
         "no-console": [false],
         "only-arrow-functions": false,
         "no-shadowed-variable": false,
-        "no"},
-    "indent" : [
-        true,
-        "tabs",
-        4
-    ],
+        "indent": [true, "tabs", 4],
+        "max-line-length": false
+        },
     "rulesDirectory": []
 }
