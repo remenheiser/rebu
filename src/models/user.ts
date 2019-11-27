@@ -1,4 +1,4 @@
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import { Document, Error, Model, model, Schema } from "mongoose";
 
 export interface IUser extends Document {
