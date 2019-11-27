@@ -4,7 +4,6 @@ import { SpotController } from "../controllers/spotController";
 import { Application } from "../server";
 
 export class SpotRouter {
-<<<<<<< HEAD
 	private router: Router;
 	private spotController: SpotController = new SpotController();
 	private authController: AuthController = new AuthController();
