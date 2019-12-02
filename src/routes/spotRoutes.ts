@@ -22,7 +22,7 @@ export class SpotRouter {
         this.router.put("/spot", this.authController.authenticateJWT, this.spotController.addSpot);
         this.router.get("/spot/:id", this.authController.authenticateJWT, this.spotController.getSpot);
         //previous spot history
-        this.router.get("/spots/:userid", this.authController.authenticateJWT, this.spotController.getUser);
+        this.router.get("/spot/:id/:userid", this.authController.authenticateJWT, this.spotController.getUser);
 
         this.router.delete("/spot/:id", this.authController.authenticateJWT, this.spotController.deleteSpot);
         this.router.post("/spot/:id", this.authController.authenticateJWT, this.spotController.updateSpot);

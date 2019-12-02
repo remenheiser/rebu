@@ -25,7 +25,7 @@ export class SpotController {
         });
     }
 
-    // - GET - /spots/:userid # returns all users at a given spot
+    // - GET - /spot/:id/:userid # returns all users at a given spot
     public async getUser(req: Request, res: Response): Promise<void> {
         await Spot.findById(req.params.id, (err: any, spot: any) => {
             if(err) {
