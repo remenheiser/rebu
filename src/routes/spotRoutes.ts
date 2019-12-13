@@ -30,7 +30,7 @@ export class SpotRouter {
 		this.router.post("/spot/:id", this.authController.authenticateJWT, this.spotController.updateSpot);
 		this.router.get("/chosen-spot/:id", this.authController.authenticateJWT, this.spotController.getSpot);
 
-		// - GET - /spots/images - return all META DATA, NOT THE IMAGES THEMSEVSES, for all spot images in the database
+		// - GET - /spots/images - return all META DATA, NOT THE IMAGES THEMSELVES, for all spot images in the database
 		this.router.get("/spots/images", this.authController.authenticateJWT, this.spotController.allSpotImages);
 
 		// - GET - /spots/image/:id - return the ACTUAL image itself according to the image id (the imgID property of the new spot,
