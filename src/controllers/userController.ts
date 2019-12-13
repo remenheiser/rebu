@@ -60,7 +60,7 @@ export class UserController {
 						const token = jwt.sign({
 							email: user.email,
 							userID: user._id,
-						}, 
+						},
 						"secret",
 						{
 							expiresIn: "1h"

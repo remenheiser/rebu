@@ -1,7 +1,7 @@
+import concat from "concat-stream";
 import { Request, Response } from "express";
 import { ISpot, Spot } from "../models/spot";
 import { Application } from "../server";
-
 export class SpotController {
 
 	// - GET - /spot # returns all spots
@@ -42,7 +42,11 @@ export class SpotController {
 				});
 			}
 			if (file[0].contentType === "image/jpeg" || file[0].contentType === "image/png") {
+				// let data: any;
 				Application.getGfs().openDownloadStreamByName(file[0].filename).pipe(res);
+				// let buff = new Buffer(data);
+				// let base64data = buff.toString('base64');
+				// res.send(base64data);
 			} else {
 				res.status(404).json({
 					err: "not an image"
