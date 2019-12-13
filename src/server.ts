@@ -10,7 +10,6 @@ import { SpotRouter } from "./routes/spotRoutes";
 import { UserRouter } from "./routes/userRoutes";
 
 export class Application {
-
 	public static getUpload(): multer.Instance {
 		return Application.upload;
 	}

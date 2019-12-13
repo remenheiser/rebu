@@ -5,6 +5,7 @@ export interface IUser extends Document {
 	email: string;
 	username: string;
 	password: string;
+	watchlist: [string];
 }
 
 export const userSchema: Schema = new Schema({
@@ -15,8 +16,9 @@ export const userSchema: Schema = new Schema({
 		unique: true,
 		match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 	},
-	username: String,
+	username: { type: String, required: true },
 	password: { type: String, required: true },
+	watchlist: { type: [String], required: true}
 });
 
 userSchema.methods.comparePassword = function(candidatePassword: string, callback: any) {

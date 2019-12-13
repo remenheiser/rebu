@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import "../auth/passportHandler";
-import { UserSchema } from "../models/user";
+import { UserSchema, userSchema } from "../models/user";
 
 export class UserController {
 	public async registerUser(req: Request, res: Response): Promise<void> {
@@ -84,5 +84,33 @@ export class UserController {
 					error: err,
 				});
 			});
+	}
+
+	public async addWatchList(req: Request, res: Response): Promise<void> {
+		await UserSchema.findOneAndUpdate({ email: req.body.email }, { $addToSet: { watchlist: req.params.id} }, (err) => {
+			if (err) {
+				return res.status(500).json({
+					message: "add to watchlist failed"
+				});
+			} else {
+				return res.status(200).json({
+					message: "add to watchlist succeeded"
+				});
+			}
+		});
+	}
+
+	public async removeWatchList(req: Request, res: Response): Promise<void> {
+		await UserSchema.findOneAndUpdate({ email: req.body.email }, { $pull: { watchlist: req.params.id} }, (err) => {
+			if (err) {
+				return res.status(500).json({
+					message: "remove from watchlist failed"
+				});
+			} else {
+				return res.status(200).json({
+					message: "remove from watchlist succeeded"
+				});
+			}
+		});
 	}
 }
