@@ -6,6 +6,14 @@ import "../auth/passportHandler";
 import { UserSchema ,ResetTokenSchema } from "../models/user";
 
 export class UserController {
+
+	public async UpdateUser(req: Request, res: Response): Promise<void> {
+		await UserSchema.updateOne({ cart: req.body.cart}, {
+			cart: req.body.cart 
+		},function() {
+		   console.log('new profile update error');
+		});
+		}
 	public async registerUser(req: Request, res: Response): Promise<void> {
 		await UserSchema.find({ email: req.body.email })
 			.exec()
@@ -15,12 +23,14 @@ export class UserController {
 						error: "Email already exists, try again"
 					});
 				} else {
+					
 					const hashedPassword = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
 					const newUser = new UserSchema({
 						_id: new mongoose.Types.ObjectId(),
 						email: req.body.email,
 						username: req.body.username,
 						password: hashedPassword,
+						cart: req.body.cart
 					});
 					newUser
 						.save()
@@ -69,7 +79,9 @@ export class UserController {
 							message: "Auth successful",
 							email: user.email,
 							username: user.username,
-							token: token
+							profilePic: user.profilePic,
+							token: token,
+							cart: user.cart
 						});
 					} else {
 						return res.status(401).json({

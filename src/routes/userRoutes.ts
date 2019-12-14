@@ -19,6 +19,7 @@ export class UserRouter {
         this.router.use(bodyParser.urlencoded({extended: true}));
         this.router.post("/register", this.userController.registerUser);
         this.router.post("/login", this.userController.loginUser);
+        this.router.post("/update", this.userController.UpdateUser);
         this.router.post("/req-reset-password", this.authController.ResetPassword);
         this.router.post("/new-password", this.userController.NewPassword);
         this.router.post("/valid-password-token", this.userController.ValidPasswordToken);

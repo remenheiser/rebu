@@ -7,6 +7,8 @@ export interface IUser extends Document {
     password: string;
     rating: number;
     previousSpots: string;
+    profilePic: string;
+    cart: [string];
 }
 
 export const userSchema: Schema = new Schema({
@@ -19,7 +21,12 @@ export const userSchema: Schema = new Schema({
     },
     username: String,
     password: { type: String, required: true },
+    profilratingepic: { type: Number, required: false },
+    previousSpots: { type: String, required: false },
+    profilePic: { type: String, required: false },
+    cart: { type: [String], required: false }
 });
+
 
 export const mongoose = require('mongoose');
 
