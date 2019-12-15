@@ -21,5 +21,6 @@ export class UserRouter {
 		this.router.post("/login", this.userController.loginUser);
 		this.router.post("/watchList/:id", this.authController.authenticateJWT, this.userController.addWatchList);
 		this.router.delete("/watchList/:id", this.authController.authenticateJWT, this.userController.removeWatchList);
+		this.router.get("/watchList/", this.authController.authenticateJWT, this.userController.getWatchList);
 	}
 }

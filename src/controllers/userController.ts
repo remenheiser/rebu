@@ -101,7 +101,7 @@ export class UserController {
 	}
 
 	public async removeWatchList(req: Request, res: Response): Promise<void> {
-		await UserSchema.findOneAndUpdate({ email: req.body.email }, { $pull: { watchlist: req.params.id} }, (err) => {
+		await UserSchema.findOneAndUpdate({ email: req.body.email }, { $pull: { watchlist: req.params.id } }, (err) => {
 			if (err) {
 				return res.status(500).json({
 					message: "remove from watchlist failed"
@@ -112,5 +112,27 @@ export class UserController {
 				});
 			}
 		});
+	}
+
+	public async getWatchList(req: Request, res: Response): Promise<void> {
+		await UserSchema.findOne({ email: req.body.email })
+				.exec()
+				.then((user) => {
+					if (!user) {
+						return res.status(500).json({
+							error: "user not found"
+						});
+					} else {
+						return res.status(200).json({
+							watchlist: user.watchlist
+						});
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+					res.status(500).json({
+						error: err,
+					});
+				});
 	}
 }
