@@ -46,7 +46,7 @@ export class SpotController {
 				Application.getGfs().openDownloadStreamByName(file[0].filename).pipe(res);
 				// let buff = new Buffer(data);
 				// let base64data = buff.toString('base64');
-				// res.send(base64data);im
+				// res.send(base64data);
 			} else {
 				res.status(404).json({
 					err: "not an image"

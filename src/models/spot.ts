@@ -12,7 +12,6 @@ export const SpotSchema = new Schema({
 	price: { type: String, required: true },
 	address: { type: String, required: true },
 	imgID: { type: String, required: true },
-
 });
 
 export const Spot: Model<ISpot> = model<ISpot>("Spot", SpotSchema);

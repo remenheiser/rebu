@@ -22,7 +22,7 @@ export class SpotRouter {
 
 		this.router.get("/spots", this.authController.authenticateJWT, this.spotController.allSpots);
 
-		this.router.put("/spot", this.authController.authenticateJWT,
+		this.router.post("/spot", this.authController.authenticateJWT,
 		Application.getUpload().single("spotImage"), this.spotController.addSpot);
 
 		this.router.get("/spot/:id", this.authController.authenticateJWT, this.spotController.getSpot);
