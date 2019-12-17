@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import { Document, Error, Model, model, Schema } from "mongoose";
+import { Spot, SpotSchema } from "./spot";
 
 export interface IUser extends Document {
     email: string;
@@ -19,6 +20,7 @@ export const userSchema: Schema = new Schema({
     },
     username: String,
     password: { type: String, required: true },
+    rating: Number,
 });
 
 export const mongoose = require('mongoose');

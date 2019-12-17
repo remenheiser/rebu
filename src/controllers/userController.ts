@@ -21,6 +21,7 @@ export class UserController {
 						email: req.body.email,
 						username: req.body.username,
 						password: hashedPassword,
+						rating: 5,
 					});
 					newUser
 						.save()

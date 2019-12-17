@@ -1,4 +1,5 @@
 import { Document, Model, model, Schema } from "mongoose";
+import { UserSchema } from "./user";
 
 export interface ISpot extends Document {
     title: string;
@@ -15,7 +16,8 @@ export const SpotSchema = new Schema({
     date: { type: String, required: true },
     img: { type: String, required: true },
     user: { type: String, required: true },
-    userid: { type: String, required: true }
+    userid: { type: String, required: true },
+    users: { type: Array<Schema>(10), required: true }
 });
 
 export const Spot: Model<ISpot> = model<ISpot>("Spot", SpotSchema);
