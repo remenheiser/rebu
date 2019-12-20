@@ -1,9 +1,10 @@
-import bcrypt, { hash } from "bcrypt";
-import { NextFunction, Request, Response } from "express";
+import bcrypt from "bcrypt";
+import { Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import "../auth/passportHandler";
-import { UserSchema, userSchema } from "../models/user";
+import { UserSchema } from "../models/user";
+import { Application } from "../server";
 
 export class UserController {
 	public async registerUser(req: Request, res: Response): Promise<void> {
@@ -134,5 +135,85 @@ export class UserController {
 						error: err,
 					});
 				});
+	}
+
+	/**
+	 * addUserImage (can also be use for update a user's image)
+	 */
+	public async addUserImage(req: Request, res: Response): Promise<void> {
+		const userImageID = req.file.fieldname;
+		await UserSchema.findOne({ email: req.body.email }, async (err: any, user: any) => {
+			if (err) { res.send(err); }
+			if (!user) { res.send({ err: "no user found" });
+			} else {
+				if (user.imgID === "null") {
+					try {
+						user.imgID = userImageID;
+						await user.save();
+						res.status(200).json({
+							message: "user image added successfully",
+							imgID: userImageID,
+							email: req.body.email
+						});
+					} catch (err) {
+						return res.status(500).json({ error: err });
+					}
+				} else {
+					const oldImgID = user.imgID;
+					user.imgID = userImageID;
+					await user.save();
+
+					Application.getGfs().find({ filename: oldImgID }).toArray((err: Error, file: any[]) => {
+						if (err) { res.send(err); }
+						if (!file || file.length === 0) {
+							return res.status(404).json({
+								err: "No such image exist"
+							});
+						}
+						const imageId = file[0]._id;
+						Application.getGfs().delete(imageId, (err) => {
+							if (err) {
+								res.send(err);
+							} else {
+								res.send("Successfully Updated User's Image");
+							}
+						});
+					});
+				}
+			}
+		});
+	}
+
+	/**
+	 * deleteUserImage
+	 */
+	public async deleteUserImage(req: Request, res: Response): Promise<void> {
+		await UserSchema.findOne({ email: req.body.email }, async (err: any, user: any) => {
+			if (err) { res.send(err); }
+			if (!user) {
+				res.send({ err: "no user found" });
+			} else {
+				const imgID = user.imgID;
+				user.imgID = "null";
+				await user.save();
+
+				Application.getGfs().find({ filename: imgID }).toArray((err: Error, file: any[]) => {
+					if (err) { res.send(err); }
+					if (!file || file.length === 0) {
+						return res.status(404).json({
+							err: "No such image exist"
+						});
+					}
+					const imageId = file[0]._id;
+					Application.getGfs().delete(imageId, (err) => {
+						if (err) {
+							res.send(err);
+						} else {
+							res.send("Successfully Deleted User's Image");
+						}
+					});
+				});
+			}
+		});
 	}
 }

@@ -35,6 +35,6 @@ export class SpotRouter {
 
 		// - GET - /spots/image/:id - return the ACTUAL image itself according to the image id (the imgID property of the new spot,
 		// or the filename property of the meta data )
-		this.router.get("/spots/image/:id", this.spotController.getSpotImage);
+		this.router.get("/spots/image/:id", this.authController.authenticateJWT, this.spotController.getSpotImage);
 	}
 }

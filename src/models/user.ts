@@ -6,6 +6,7 @@ export interface IUser extends Document {
 	username: string;
 	password: string;
 	watchlist: [string];
+	imgID: string;
 }
 
 export const userSchema: Schema = new Schema({
@@ -18,7 +19,8 @@ export const userSchema: Schema = new Schema({
 	},
 	username: { type: String, required: true },
 	password: { type: String, required: true },
-	watchlist: { type: [String], required: true}
+	watchlist: { type: [String], required: true},
+	imgID: { type: String, default: "null" }
 });
 
 userSchema.methods.comparePassword = function(candidatePassword: string, callback: any) {

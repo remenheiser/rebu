@@ -32,6 +32,8 @@ export class SpotController {
 
 	// - GET - /spots/image/:id : return the ACTUAL image itself according to the image id
 	public async getSpotImage(req: Request, res: Response) {
+		const imgTypeArr: string[] = ["image/jpeg", "image/png", "image/jpg"];
+
 		Application.getGfs().find({ filename: req.params.id }).toArray((err: Error, file: Express.Multer.File[]) => {
 			if (err) {
 				res.send(err);
@@ -41,12 +43,8 @@ export class SpotController {
 					err: "No such image exist"
 				});
 			}
-			if (file[0].contentType === "image/jpeg" || file[0].contentType === "image/png") {
-				// let data: any;
+			if (imgTypeArr.includes(file[0].contentType)) {
 				Application.getGfs().openDownloadStreamByName(file[0].filename).pipe(res);
-				// let buff = new Buffer(data);
-				// let base64data = buff.toString('base64');
-				// res.send(base64data);
 			} else {
 				res.status(404).json({
 					err: "not an image"

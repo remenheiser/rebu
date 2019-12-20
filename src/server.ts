@@ -100,7 +100,7 @@ export class Application {
 			Application.gfs = new mongoose.mongo.GridFSBucket(this.mongoConn.db);
 		});
 		this.mongoConn.on("reconnected", () => {
-			console.log("mongo connection reestablished");
+			console.log("mongo connection re-established");
 		});
 		this.mongoConn.on("disconnected", () => {
 			console.log("mongo connection disconnected");
