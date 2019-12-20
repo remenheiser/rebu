@@ -62,10 +62,10 @@ export class UserController {
 							email: user.email,
 							userID: user._id,
 						},
-						"secret",
-						{
-							expiresIn: "1h"
-						});
+							"secret",
+							{
+								expiresIn: "1h"
+							});
 						return res.status(200).json({
 							message: "Auth successful",
 							email: user.email,
@@ -88,7 +88,7 @@ export class UserController {
 	}
 
 	public async addWatchList(req: Request, res: Response): Promise<void> {
-		await UserSchema.findOneAndUpdate({ email: req.body.email }, { $addToSet: { watchlist: req.params.id} }, (err) => {
+		await UserSchema.findOneAndUpdate({ email: req.body.email }, { $addToSet: { watchlist: req.params.id } }, (err) => {
 			if (err) {
 				return res.status(500).json({
 					message: "add to watchlist failed"
@@ -117,24 +117,24 @@ export class UserController {
 
 	public async getWatchList(req: Request, res: Response): Promise<void> {
 		await UserSchema.findOne({ email: req.body.email })
-				.exec()
-				.then((user) => {
-					if (!user) {
-						return res.status(500).json({
-							error: "user not found"
-						});
-					} else {
-						return res.status(200).json({
-							watchlist: user.watchlist
-						});
-					}
-				})
-				.catch((err) => {
-					console.log(err);
-					res.status(500).json({
-						error: err,
+			.exec()
+			.then((user) => {
+				if (!user) {
+					return res.status(500).json({
+						error: "user not found"
 					});
+				} else {
+					return res.status(200).json({
+						watchlist: user.watchlist
+					});
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				res.status(500).json({
+					error: err,
 				});
+			});
 	}
 
 	/**
@@ -144,7 +144,8 @@ export class UserController {
 		const userImageID = req.file.fieldname;
 		await UserSchema.findOne({ email: req.body.email }, async (err: any, user: any) => {
 			if (err) { res.send(err); }
-			if (!user) { res.send({ err: "no user found" });
+			if (!user) {
+				res.send({ err: "no user found" });
 			} else {
 				if (user.imgID === "null") {
 					try {
@@ -212,6 +213,29 @@ export class UserController {
 							res.send("Successfully Deleted User's Image");
 						}
 					});
+				});
+			}
+		});
+	}
+
+	// - GET - /spots/image/:id : return the ACTUAL image itself according to the image id
+	public async getUserImage(req: Request, res: Response) {
+		const imgTypeArr: string[] = ["image/jpeg", "image/png", "image/jpg"];
+
+		Application.getGfs().find({ filename: req.params.id }).toArray((err: Error, file: Express.Multer.File[]) => {
+			if (err) {
+				res.send(err);
+			}
+			if (!file || file.length === 0) {
+				return res.status(404).json({
+					err: "No such image exist"
+				});
+			}
+			if (imgTypeArr.includes(file[0].contentType)) {
+				Application.getGfs().openDownloadStreamByName(file[0].filename).pipe(res);
+			} else {
+				res.status(404).json({
+					err: "not an image"
 				});
 			}
 		});

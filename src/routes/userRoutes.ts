@@ -37,5 +37,7 @@ export class UserRouter {
 		 * request-body format: json -> (email (user's email))
 		 */
 		this.router.delete("/userImage/", this.authController.authenticateJWT, this.userController.deleteUserImage);
+
+		this.router.get("/userImage/:id", this.authController.authenticateJWT, this.userController.getUserImage);
 	}
 }
