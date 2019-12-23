@@ -36,6 +36,17 @@ export class SpotController {
         });
     }
 
+    // - GET - /spot/:id/:rating # returns rating at a given spot
+    public async getRating(req: Request, res: Response): Promise<void> {
+        await Spot.findById(req.params.id, (err: any, spot: any) => {
+            if(err) {
+                res.send(err);
+            } else {
+                res.send(spot.rating);
+            }
+        });
+    }
+
     // - PUT - /spot # inserts a new spot into the table
     public async addSpot(req: Request, res: Response): Promise<void> {
         const spot: ISpot = new Spot(req.body);
