@@ -42,7 +42,7 @@ export class SpotController {
             if(err) {
                 res.send(err);
             } else {
-                res.send(spot.rating);
+                res.status(200).json({rating: spot.rating});
             }
         });
     }
