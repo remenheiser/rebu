@@ -8,7 +8,7 @@ export interface ISpot extends Document {
     img: string;
     user: string;
     userid: string;
-    users: Array<Schema>;
+    //users: Array<Schema>;
     rating: number;
 }
 
@@ -19,7 +19,7 @@ export const SpotSchema = new Schema({
     img: { type: String, required: true },
     user: { type: String, required: true },
     userid: { type: String, required: true },
-    users: { type: Array<Schema>(10), required: true },
+    //users: { type: Array<Schema>(10), required: true },
     rating: {type: Number, default: 0 }
 });
 

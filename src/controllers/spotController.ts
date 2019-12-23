@@ -25,16 +25,16 @@ export class SpotController {
         });
     }
 
-    // - GET - /spot/:id/:userid # returns all users at a given spot
-    public async getUser(req: Request, res: Response): Promise<void> {
-        await Spot.findById(req.params.id, (err: any, spot: any) => {
-            if(err) {
-                res.send(err);
-            } else {
-                res.send(spot.users);
-            }
-        });
-    }
+    // // - GET - /spot/:id/:userid # returns all users at a given spot
+    // public async getUser(req: Request, res: Response): Promise<void> {
+    //     await Spot.findById(req.params.id, (err: any, spot: any) => {
+    //         if(err) {
+    //             res.send(err);
+    //         } else {
+    //             res.send(spot.users);
+    //         }
+    //     });
+    // }
 
     // - GET - /spot/:id/:rating # returns rating at a given spot
     public async getRating(req: Request, res: Response): Promise<void> {
